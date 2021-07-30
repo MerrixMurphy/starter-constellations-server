@@ -3,16 +3,9 @@ const axios = require("axios");
 const url = "http://localhost:5000/constellations";
 axios
   .get(url)
-  .then((response) => {
-    console.log(response.status);
-    console.log(response.statusText);
-    const responseArray = response.data;
-    responseArray.filter((planet) => {
-      if (planet.starsWithPlanets < 10) {
-        console.log(planet);
-      }
-    });
+  .then(({ data }) => {
+    const exists = data.find(({ name }) => name === leo.name);
+    if (exists) throw `Constellation "${leo.name}" already exists.`;
+    return axios.post(url, leo).then(({ data }) => console.log(data));
   })
-  .catch((error) => {
-    console.log(error.message);
-  });
+  .catch(console.log);
